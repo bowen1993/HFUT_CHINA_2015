@@ -1,0 +1,8 @@
+# Mac folder files
+.DS_Store
+
+# Uploaded files
+uploads/*
+
+# Download Files
+downloads/*
