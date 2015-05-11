@@ -36,9 +36,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'accounts',
     'design',
     'version'
+=======
+>>>>>>> 22f65ed871c6bebbe3ad31ef260c3e5b0ba03ac4
 )
 
 MIDDLEWARE_CLASSES = (
@@ -61,6 +64,7 @@ EMAIL_HOST_PASSWORD = 'biodesigner'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'biodesigner@bio.com'
+
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 

@@ -33,6 +33,9 @@ htmlcov/
 nosetests.xml
 coverage.xml
 
+#Mac Folder file
+.DS_Store
+
 # Translations
 *.mo
 
@@ -40,15 +43,6 @@ coverage.xml
 .mr.developer.cfg
 .project
 .pydevprojectsd
-
-# Mac folder files
-.DS_Store
-
-# Uploaded files
-uploads/*
-
-# Download Files
-downloads/*
 
 # Data File
 new.xml
