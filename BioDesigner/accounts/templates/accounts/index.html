@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BioDesigner</title>
+    <link rel="shortcut icon" href="/static/img/logo.png">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
+    <!-- Java Script -->
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="container">
+	<button type="button" class="btn btn-primary" id="modalbutton">openModal</button>
+	<div id="test-modal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="modal-body">
+						faskjfkls
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div><!-- div#container -->
+
+<script type="text/javascript">
+	$('#modalbutton').click(function() {
+		$('#test-modal').modal('show');
+	});
+</script>
+</body>
+</html>

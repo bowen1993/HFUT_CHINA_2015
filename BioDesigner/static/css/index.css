@@ -1,0 +1,158 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family:"Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility
+}
+
+div{
+	display: block;
+}
+
+div#container{
+	width:100%;
+	text-align: center;
+	height: 100%;
+	left:0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+/*
+div#container div#background{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top:0;
+	left: 0;
+	z-index: -1;
+}
+
+div#container div#background img#background-image{
+	position: fixed;
+	width: 100%;
+	min-height: 100%;
+	min-width: 800px;
+}
+*/
+
+div#background-image{
+	background:url(/static/img/login_background.jpg);
+	background-size:cover;
+	background-repeat:no-repeat;
+	width:100%;
+	height: 100%;
+	z-index: -1;
+	-webkit-background-size: cover;
+	top:0;
+	left: 0;
+	position: absolute;
+}
+
+
+div#container div#slogn{
+	font-size: 6em;
+	vertical-align: middle;
+	position: relative;
+	top: 20%;
+	text-shadow: 0 0 20px rgba(0,0,0,0.35);
+}
+
+div#container div#slogn div.slogn-text{
+	text-align: center;
+	margin: 0 auto;
+	font-weight: lighter;
+	color:#fff;
+}
+
+div#button{
+	width: 100%;
+	font-size: 4em;
+	position: relative;
+	top:40%;
+}
+
+a.btn-action{
+	display: inline-block;
+	margin-right: 1em;
+	color:#CCCCCC;
+	text-decoration: none;
+	-webkit-transition-delay: 0s;
+	-webkit-transition-duration: 0.2s;
+	-webkit-transition-property: opacity;
+	-webkit-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+	-webkit-user-select: none;
+}
+
+a.btn-action:hover{
+	color:#4BE54F;
+}
+
+div#login-window{
+	margin-top: 10em;
+	text-align: center;
+	opacity: 0.86;
+}
+
+div#login-window img,
+div#login-window div.login-input,
+div#register-window div.register-input{
+	margin: 0 auto;
+}
+
+
+h3#login-title, h3#register-title{
+	text-align: center;
+	color:#4C4C4C;
+}
+
+button.cancel-button,
+button.ok-button{
+	background-color: rgba(0,0,0,0);
+	font-size:1.25em;
+	border-width: 0px;
+	-webkit-transition-delay: 0s;
+	-webkit-transition-duration: 0.2s;
+	-webkit-transition-property: opacity;
+	-webkit-transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+	-webkit-user-select: none;
+}
+button.cancel-button{
+	color:#333333;
+}
+button.ok-button{
+	color:#0080FF;
+	font-size: 1.3em
+}
+
+button.cancel-button:hover{
+	color:#191919;
+	font-weight: bolder;
+}
+
+button.ok-button:hover{
+	color:#0000FF;
+	font-weight: bolder;
+}
+
+div#register-window{
+	margin-top: 10em;
+	text-align: center;
+	opacity: 0.95;
+}
+
+div#register-window img{
+	float: left;
+}
+
+div#register-window div.register-input{
+	vertical-align: center;
+	margin-bottom: 2.5em;
+}
+
+div#register-window input.register-input{
+	margin: 0 auto;
+}
