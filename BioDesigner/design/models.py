@@ -3,65 +3,6 @@ from accounts.models import User
 
 # Create your models here.
 # 
-class project(models.Model):
-    project_name = models.CharField(max_length=64)
-    creator      = models.ForeignKey(User)
-    create_time  = models.DateTimeField(auto_now_add=True)
-    chain        = models.CharField(max_length=255, null=True)
-    function     = models.ForeignKey(functions)
-    track        = models.ForeignKey(tracks)
-    is_deleted   = models.BooleanField(default=False)
-
-    def __unicode__(self):
-        return self.project_name
-
-    class Meta:
-        db_table = 'bio_project'
-
-
-class functions(models.Model):
-    function_id = models.IntegerField(primary_key=True)
-    function    = models.CharField(max_length=128)
-
-    def __unicode__(self):
-        return self.function
-
-    class Meta:
-        db_table = 'bio_functions'
-
-
-class tracks(models.Model):
-    track_id = models.IntegerField(primary_key=True)
-    track    = models.CharField(max_length=64)
-
-    def __unicode__(self):
-        return self.track
-
-    class Meta:
-        db_table = 'bio_tracks'
-
-
-class team_parts(models.Model):
-    team_id   = models.CharField(max_length=64)
-    team_name = models.CharField(max_length=64)
-
-    def __unicode__(self):
-        return self.team_name
-
-    class Meta:
-        db_table = 'bio_team_parts'
-
-
-class user_project(models.Model):
-    user    = models.ForeignKey(User)
-    project = models.ForeignKey(Project)
-
-    def __unicode__(self):
-        return self.user
-
-    class Meta:
-        db_table = 'bio_user_project'
-
 
 class parts(models.Model):
     part_id          = models.IntegerField(primary_key=True)
@@ -100,3 +41,73 @@ class parts(models.Model):
 
     class Meta:
         db_table = 'bio_parts' 
+
+class functions(models.Model):
+    function_id = models.IntegerField(primary_key=True)
+    function    = models.CharField(max_length=128)
+
+    def __unicode__(self):
+        return self.function
+
+    class Meta:
+        db_table = 'bio_functions'
+
+
+class tracks(models.Model):
+    track    = models.CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.track
+
+    class Meta:
+        db_table = 'bio_tracks'
+
+class teams(models.Model):
+    name = models.CharField(max_length=64)
+    function = models.ForeignKey(functions)
+    track = models.ForeignKey(tracks)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'bio_team'
+
+class project(models.Model):
+    project_name = models.CharField(max_length=64)
+    creator      = models.ForeignKey(User)
+    create_time  = models.DateTimeField(auto_now_add=True)
+    chain        = models.CharField(max_length=255, null=True)
+    function     = models.ForeignKey(functions)
+    track        = models.ForeignKey(tracks)
+    is_deleted   = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.project_name
+
+    class Meta:
+        db_table = 'bio_project'
+
+class team_parts(models.Model):
+    team   = models.ForeignKey(teams)
+    part = models.ForeignKey(parts)
+
+    def __unicode__(self):
+        return self.team_name
+
+    class Meta:
+        db_table = 'bio_team_parts'
+
+
+class user_project(models.Model):
+    user    = models.ForeignKey(User)
+    project = models.ForeignKey(project)
+
+    def __unicode__(self):
+        return self.user
+
+    class Meta:
+        db_table = 'bio_user_project'
+
+
+
