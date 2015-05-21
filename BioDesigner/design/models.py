@@ -63,9 +63,10 @@ class tracks(models.Model):
         db_table = 'bio_tracks'
 
 class teams(models.Model):
+    team_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=64)
-    function = models.ForeignKey(functions)
     track = models.ForeignKey(tracks)
+    year = models.CharField(max_length=16)
 
     def __unicode__(self):
         return self.name

@@ -12,7 +12,14 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "BioDesigner.settings")
 
 from design.models import teams, functions, tracks
 
-regionList = ['table_Teams_from_Asia', 'table_Teams_from_Europe', 'table_Teams_from_Latin America', 'table_Teams_from_North America']
+regionList2014 = ['table_Teams_from_Asia', 'table_Teams_from_Europe', 'table_Teams_from_Latin America', 'table_Teams_from_North America']
+regionList2013 = ['table_Teams_from_Asia', 'table_Teams_from_Europe', 'table_Teams_from_Latin America', 'table_Teams_from_North America']
+regionList2012 = ['table_Teams_from_Asia', 'table_Teams_from_Europe', 'table_Teams_from_Latin America', 'table_Teams_from_Americas East', 'table_Teams_from_Americas West']
+regionList2011 = ['table_Teams_from_Asia', 'table_Teams_from_Europe', 'table_Teams_from_Americas']
+regionList2010 = ['table_Teams_from_Asia', 'table_Teams_from_Europe', 'table_Teams_from_Canada', 'table_Teams_from_Latin America', 'table_Teams_from_US']
+regionList2007 = ['table_Teams_from_Asia', 'table_Teams_from_Europe', 'table_Teams_from_Canada', 'table_Teams_from_Latin America', 'table_Teams_from_US', 'table_Teams_from_Other']
+regionList2006 = ['table_Teams_from_Other']
+
 
 def getTeamDict(baseURL):
     print 'get html doc'
@@ -27,29 +34,50 @@ def getTeamDict(baseURL):
         #if os.path.exists('./team/' + key + '.txt'):
         #    print 'passing: ' + key
         #    continue
-        track = getTeamAbstruct(teamDict[key])
-        if 'not been assigned' in track:
-            track = 'none'
-        else:
-            track = track[19:-4]
-        newTrack = tracks.objects.get_or_create(track=track)
-        newTeam = teams(name=key, track=newTrack)
-        newTeam.save()
+        teamId = int(teamDict[key]['id'])
+        print teamId
+        try:
+            newTeam = teams.objects.get(team_id = teamId)
+            newTeam.year = '2004'
+            try:
+                newTeam.save()
+            except:
+                print 'save year error for team %s' % key
+            print 'passing'
+            continue
+        except:
+            pass
+            track = getTeamAbstruct(teamDict[key]['url'])
+            print 'saving'
+            if 'not been assigned' in track:
+                track = 'none'
+            else:
+                track = track[19:-4]
+            newTrack = tracks.objects.get_or_create(track=track)
+            if newTrack[1]:
+                newTrack[0].save()
+            newTeam = teams(team_id=teamId, track=newTrack[0], name=key, year='2004')
+            newTeam.save()
     return result
 
 def analyseHTMLPage(htmlStr):
     resultDict = dict()
     soup = BeautifulSoup(htmlStr)
-    for regionStr in regionList:
+    for regionStr in regionList2006:
         regionTable = soup.find(id=regionStr)
         aTag = regionTable.findAll('a')
         for a in aTag:
-            resultDict[a.string] = a['href']
+            idIndex = a['href'].find('=')
+            resultDict[a.string] = {
+                'url': a['href'],
+                'id' : a['href'][idIndex+1:]
+            }
     return resultDict
 
 def getTeamAbstruct(wikiURL):
     req = urllib2.Request(wikiURL)
-    cookieStr = 'team_ID=' + wikiURL[len(wikiURL)-4:len(wikiURL)]
+    idIndex = wikiURL.find('=')
+    cookieStr = 'team_ID=' + wikiURL[idIndex+1:]
     req.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     req.add_header('Cookie', cookieStr)
     print cookieStr
@@ -65,4 +93,4 @@ def getTeamAbstruct(wikiURL):
 
 if __name__ == '__main__':
     django.setup()
-    getTeamDict('http://igem.org/Team_List?year=2013')
+    getTeamDict('http://igem.org/Team_List?year=2004')

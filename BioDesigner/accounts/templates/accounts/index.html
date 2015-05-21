@@ -15,7 +15,7 @@
 <body>
 <div id="container">
     <div class="logo-big">
-        <img src="/static/img/logo.png" alt="logo" class="img-rounded" style="width: 140px;height: 140px;" />
+        <img src="/static/img/logo.png" alt="logo" class="img-rounded" style="width: 604px;height: 140px;" />
     </div> <!-- div.logo-big -->
     <div class="login-window">
         <div class="window-title">BioDesginer Login</div>
@@ -106,7 +106,7 @@ $('button#register').click(function() {
         if ( result['isSuccessful'] ){
             window.location.href="/home/dashboard"
         }else{
-            $('#login-alert').removeClass('hide');
+
             $('div.input-area').shake(4, 20, 200);
         }
     }
@@ -143,7 +143,6 @@ $('button#register').click(function() {
         if ( result['isSuccessful'] ){
             window.location.href = "/accounts/successful"
         }else{
-            $('#register-alert').removeClass('hide');
             $('.modal-dialog').shake(4, 20, 200)
         }
     }

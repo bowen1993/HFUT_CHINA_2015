@@ -49,3 +49,7 @@ uploads/*
 
 # Download Files
 downloads/*
+
+#data file
+*.xml
+*.csv
