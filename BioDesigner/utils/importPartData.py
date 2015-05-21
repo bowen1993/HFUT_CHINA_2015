@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import os
 import django
 import sys
@@ -293,4 +294,21 @@ def mainFunc():
 
 if __name__ == '__main__':
     django.setup()
+=======
+import os
+import django
+import sys
+import xml.sax
+
+pro_dir = os.getcwd()
+sys.path.append(pro_dir)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mitagger.settings")
+
+
+def mainFunc():
+    #analyse code here
+
+if __name__ == '__main__':
+    django.setup()
+>>>>>>> 63fb0652e1f8be67efc7cd160ec9c100d8bbf54d
     mainFunc()

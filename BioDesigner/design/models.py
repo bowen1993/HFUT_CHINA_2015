@@ -2,8 +2,7 @@ from django.db import models
 from accounts.models import User
 
 # Create your models here.
-
-
+# 
 class project(models.Model):
     project_name = models.CharField(max_length=64)
     creator      = models.ForeignKey(User)
@@ -100,4 +99,4 @@ class parts(models.Model):
         return self.part_name
 
     class Meta:
-        db_table = 'bio_parts'
+        db_table = 'bio_parts' 
