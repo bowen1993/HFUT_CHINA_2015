@@ -136,9 +136,10 @@ def registerAction(request):
     }
 
     #check whether the user or email exists
-    if not isUserExists(username) and not isEmailExists(email) and not result['isInfoEmpty']:
+    if not isUserExists(username) and not result['isInfoEmpty']:
         saveNewUser(username, password, email)
         result['isSuccessful'] = True
+        result['errorMessage'] = 'user exists or info empty'
         createSession(request, username, False)
     return HttpResponse(json.dumps(result), content_type="application/json")
 
@@ -170,9 +171,9 @@ def varifyEmail(email, user, username):
     email_subject = 'BioDesigner Account confirmation'
     email_body = "Hello %s,\nThanks for your registeration.\nTo active you account \
     , please click this link within 48 hours\n\
-    http://127.0.0.1:8000/accounts/confirm/%s" % (username, email)
-    #send_mail(email_subject, email_body, 'BioDesigner@biodesigner.com',
-     #[email],fail_silently=False)
+    http://127.0.0.1:8000/accounts/confirm/%s" % (username, active_key)
+    send_mail(email_subject, email_body, 'biodesigner@bio.com',
+     [email],fail_silently=False)
 
 
 def isUserExists(username):

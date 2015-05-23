@@ -59,9 +59,9 @@ def getCurrentUserObj(request):
     userObj = User.objects.get(username=username)
     return userObj
 
-def newProject(name, user, function, track):
+def newProject(name, user, track):
     try:
-        projectObj = project(project_name=name, creator=user, function_id=function, track_id=track)
+        projectObj = project(project_name=name, creator=user, track_id=track)
         projectObj.save()
         userPjctObj = user_project(user=user, project=projectObj)
         userPjctObj.save()
@@ -75,14 +75,43 @@ def createProject(request):
         'isSuccessful': False,
     }
     if not isLoggedIn(request):
-        return result
+        return HttpResponse(json.dumps(result), content_type="application/json")
     name = request.POST.get('name', '')
     userObj = getCurrentUserObj(request)
-    function_id = int(request.POST.get('function', ''))
+    #function_id = int(request.POST.get('function', ''))
     track_id = int(request.POST.get('track', ''))
-    result['isSuccessful'] = newProject(name, userObj, function_id, track_id)
+    result['isSuccessful'] = newProject(name, userObj, track_id)
     reuslt['project_name'] = name
     return HttpResponse(json.dumps(result), content_type="application/json")
 
+@csrf_exempt
+def getProjectChain(request):
+    result = {
+        'isSuccessful' : False,
+    }
+    project_id = request.POST.get('id', '')
+    try:
+        projectObj = project.objects.get(id=project_id)
+        result['chain'] = projectObj.chain
+        result['isSuccessful'] = True
+        return HttpResponse(json.dumps(result), content_type="application/json")
+    except:
+        return HttpResponse(json.dumps(result), content_type="application/json")
 
+@csrf_exempt
+def saveChain(request):
+    result = {'isSuccessful':True,}
+    chainContent = request.POST.get('chain','')
+    projectId = int(request.POST.get('id',''))
+    projectObject = project.objects.get(pk=projectId)
 
+    if projectObject == "":
+        result['isSuccessful'] = False
+    else:
+        projectObject.chain = chainContent
+        try:
+            projectObject.save()
+        except Exception, e:
+            result['isSuccessful'] = False
+
+    return HttpResponse(json.dumps(result),content_type="application/json")

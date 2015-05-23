@@ -38,6 +38,7 @@
             <button type="button" id="login" class="btn btn-primary btn-index">Login</button>
         </div>
     </div> <!-- div.login-window -->
+    
 </div><!-- div#container -->
 <div class="modal fade" id="register-window" role="dialog">
     <div class="moda-dialog">
@@ -143,8 +144,8 @@ $('button#register').click(function() {
         if ( result['isSuccessful'] ){
             window.location.href = "/accounts/successful"
         }else{
-            $('.modal-dialog').shake(4, 20, 200)
-        }
+             $('div.modal-body').shake(4, 20, 200);
+         }
     }
 </script>
 <script type="text/javascript">
@@ -165,6 +166,7 @@ $('button#register').click(function() {
         });
     }
 </script>
+
 <script type="text/javascript">
     $('#register-window').delegate('.modal-footer #register-button', 'click', function(){
         $('#register-alert').addClass('hide');
@@ -174,11 +176,12 @@ $('button#register').click(function() {
             email = $('#email-field').val();
         if (username.length == 0 || password.length == 0 ||repassword.length == 0 || email.length == 0 || (password != repassword)){
             $('#register-alert').removeClass('hide');
-            $('div.modal-body').shake(4, 20, 200)
+            $('div.modal-body').shake(4, 20, 200);
         }
         else{
             doRegister(username, password, email)
         }
     });
+</script>
 </body>
 </html>

@@ -22,7 +22,7 @@ div#container{
 	top:0;
 	right:0;
 	bottom: 0;
-	background: -webkit-linear-gradient(#6699CC, #66FF99);
+	background: linear-gradient(#6699CC, #66FF99);
 }
 
 div.slogn{
