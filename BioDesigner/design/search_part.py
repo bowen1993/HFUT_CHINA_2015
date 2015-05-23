@@ -58,7 +58,7 @@ def fuzzy_search_parts(es, keyword):
             }
         }
     }
-    result = es.search(index="biodesginers", doc_type="parts", body=query_body)
+    result = es.search(index="biodesigners", doc_type="parts", body=query_body)
     return result
 
 def exact_search_part(es, partName):
