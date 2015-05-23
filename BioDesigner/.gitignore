@@ -50,6 +50,9 @@ uploads/*
 # Download Files
 downloads/*
 
+# setting file
+BioDesigner/settings.py
+
 #data file
 *.xml
 *.csv

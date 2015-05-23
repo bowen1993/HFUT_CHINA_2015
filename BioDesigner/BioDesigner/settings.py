@@ -70,7 +70,7 @@ DATABASES = {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'biodesigner',
             'USER': 'root',
-            'PASSWORD': '123456',
+            'PASSWORD': '9J46>KGvX',
             'HOST': '127.0.0.1',
             'PORT': '3306',
        }

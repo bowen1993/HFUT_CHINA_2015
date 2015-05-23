@@ -39,7 +39,7 @@ def saveInfoToES(es, parts_list):
             "short_desc" : part_info.short_desc,
             "sequence": part_info.sequence
         }
-        res = es.index(index="biodesginers", doc_type="parts", body=part_boby)
+        res = es.index(index="biodesigners", doc_type="parts", body=part_boby)
         id += 1
         if not res['created']:
             print "part %s error" % part_info.part_name
