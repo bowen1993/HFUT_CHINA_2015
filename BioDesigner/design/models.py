@@ -43,6 +43,31 @@ class parts(models.Model):
     class Meta:
         db_table = 'bio_parts' 
 
+class part_twins(models.Model):
+    part_1 = models.ForeignKey(parts)
+    part_2 = models.ForeignKey(parts, related_name='FK_PART_TWIN2', db_column='part_2_id')
+
+    class Meta:
+        db_table = 'bio_part_twins'
+
+class features(models.Model):
+    feature_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=128, null=True)
+    feature_type = models.CharField(max_length=128, null=True)
+    direction = models.CharField(max_length=256, null=True)
+    startpos = models.IntegerField(null=True)
+    endpos = models.IntegerField(null=True)
+
+    class Meta:
+        db_table = 'bio_features'
+
+class part_features(models.Model):
+    part = models.ForeignKey(parts)
+    feature = models.ForeignKey(features)
+
+    class Meta:
+        db_table = 'bio_part_features'
+
 class functions(models.Model):
     function_id = models.IntegerField(primary_key=True)
     function    = models.CharField(max_length=128)

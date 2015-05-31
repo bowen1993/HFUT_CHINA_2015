@@ -46,3 +46,5 @@ coverage.xml
 
 # Data File
 new.xml
+*.sql
+*.txt

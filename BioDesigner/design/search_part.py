@@ -33,7 +33,8 @@ def getPart(partName):
                 'premium' : partObj.premium,
                 'categories' : partObj.categories,
                 'sequence' : partObj.sequence,
-                'sequence_length' : partObj.sequence_length
+                'sequence_length' : partObj.sequence_length,
+                'part_url' : partObj.part_url
             }
     except:
         result = {
@@ -123,7 +124,8 @@ def format_exact_result(es_res):
             'premium' : partObj.premium,
             'categories' : partObj.categories,
             'sequence' : partObj.sequence,
-            'sequence_length' : partObj.sequence_length
+            'sequence_length' : partObj.sequence_length,
+            'part_url' : partObj.part_url
         }
     return result
 

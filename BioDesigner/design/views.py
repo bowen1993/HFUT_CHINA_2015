@@ -12,7 +12,9 @@ import datetime
 import random
 from search_part import ambiguousSearch, getPart
 from accounts.models import User
-from design.models import project, functions, tracks, user_project
+from design.models import project, functions, tracks, user_project, tracks
+from design.project import searchProject, getUserProject, getChain
+from design.recommend import getApriorRecommend, getMarkovRecommend
 
 @csrf_exempt
 def searchParts(request):
@@ -40,6 +42,20 @@ def dashboardView(request):
     except KeyError:
         return HttpResponseRedirect('/')
 
+@csrf_exempt
+def testDashboardView(request):
+    try:
+        isLoggedIn = request.session['isLoggedIn']
+        isAccountConfirm = isAccountActive(request)
+        if isLoggedIn and isAccountConfirm:
+            template = loader.get_template('home/dashboard_.html')
+            context = RequestContext(request, {})
+            return HttpResponse(template.render(context))
+        else:
+            return HttpResponseRedirect('/')
+    except KeyError:
+        return HttpResponseRedirect('/')
+
 def isAccountActive(request):
     try:
         username = request.session['username']
@@ -55,9 +71,12 @@ def isLoggedIn(request):
         return False
 
 def getCurrentUserObj(request):
-    username = request.session['username']
-    userObj = User.objects.get(username=username)
-    return userObj
+    try:
+        username = request.session['username']
+        userObj = User.objects.get(username=username)
+        return userObj
+    except:
+        return None
 
 def newProject(name, user, track):
     try:
@@ -65,9 +84,9 @@ def newProject(name, user, track):
         projectObj.save()
         userPjctObj = user_project(user=user, project=projectObj)
         userPjctObj.save()
-        return True
+        return True, projectObj
     except:
-        return False
+        return False, null
 
 @csrf_exempt
 def createProject(request):
@@ -80,8 +99,11 @@ def createProject(request):
     userObj = getCurrentUserObj(request)
     #function_id = int(request.POST.get('function', ''))
     track_id = int(request.POST.get('track', ''))
-    result['isSuccessful'] = newProject(name, userObj, track_id)
-    reuslt['project_name'] = name
+    createResult = newProject(name, userObj, track_id)
+    result['isSuccessful'] = createResult[0]
+    result['project_name'] = name
+    result['id'] = createResult[1].id
+    result['creator'] = userObj.username
     return HttpResponse(json.dumps(result), content_type="application/json")
 
 @csrf_exempt
@@ -89,14 +111,32 @@ def getProjectChain(request):
     result = {
         'isSuccessful' : False,
     }
-    project_id = request.POST.get('id', '')
-    try:
-        projectObj = project.objects.get(id=project_id)
-        result['chain'] = projectObj.chain
-        result['isSuccessful'] = True
+    if not isLoggedIn(request):
         return HttpResponse(json.dumps(result), content_type="application/json")
-    except:
+    project_id = request.GET.get('id', '')
+    chainResult = getChain(project_id)
+    result['isSuccessful'] = chainResult[0]
+    result['chain'] = chainResult[1]
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+@csrf_exempt
+def getProject(request):
+    keyword = request.GET.get('keyword')
+    userObj = getCurrentUserObj(request)
+    if not userObj:
+        result = {'isSuccessful' : False}
         return HttpResponse(json.dumps(result), content_type="application/json")
+    result = searchProject(keyword, userObj)
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+@csrf_exempt
+def getUserProjects(request):
+    userObj = getCurrentUserObj(request)
+    if not userObj:
+        result = {'isSuccessful' : False}
+        return HttpResponse(json.dumps(result), content_type="application/json")
+    result = getUserProject(userObj)
+    return HttpResponse(json.dumps(result), content_type="application/json")
 
 @csrf_exempt
 def saveChain(request):
@@ -115,3 +155,28 @@ def saveChain(request):
             result['isSuccessful'] = False
 
     return HttpResponse(json.dumps(result),content_type="application/json")
+
+@csrf_exempt
+def getARecommend(request):
+    return HttpResponse(json.dumps(getApriorRecommend()), content_type="application/json")
+
+@csrf_exempt
+def getMRecommend(request):
+    return HttpResponse(json.dumps(getMarkovRecommend()), content_type="application/json")
+
+@csrf_exempt
+def getTracks(request):
+    trackList = tracks.objects.all().order_by('id');
+    result = {
+        'isSuccessful' : False,
+    }
+    trackInfos = list()
+    for t in trackList:
+        tmp = {
+            'id' : t.id,
+            'track' : t.track
+        }
+        trackInfos.append(tmp)
+    result['isSuccessful'] = True
+    result['tracks'] = trackInfos
+    return HttpResponse(json.dumps(result), content_type="application/json")
