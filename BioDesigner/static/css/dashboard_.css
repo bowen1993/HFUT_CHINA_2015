@@ -249,9 +249,10 @@ div.receive_hover{
 
 .recommand_div{
     display: block;
-    opacity: 0.7;
+    opacity: 0.8;
     position: absolute;
     background-color: #E6E6E6;
+    z-index: 10;
 }
 
 div#part_info{
@@ -320,4 +321,17 @@ div#new-project button.btn-cancel{
 .btn-create{
     color:#0080FF;
     background-color: rgba(0,0,0,0);
+}
+
+
+.click_div{
+    height:5px;
+    width:50px;
+    position: absolute;
+    top:-20px;
+    left:30px;
+}
+div.copy:hover, div.paste:hover, div.delete:hover, div.part_remove:hover{
+    background-color: #0080FF;
+    color:#FFF;
 }

@@ -162,7 +162,8 @@ def getARecommend(request):
 
 @csrf_exempt
 def getMRecommend(request):
-    return HttpResponse(json.dumps(getMarkovRecommend()), content_type="application/json")
+    part_id = request.GET.get('part')
+    return HttpResponse(json.dumps(getMarkovRecommend(part_id)), content_type="application/json")
 
 @csrf_exempt
 def getTracks(request):

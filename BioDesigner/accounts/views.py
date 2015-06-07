@@ -7,6 +7,7 @@ from django.template import RequestContext, loader
 from django.core.mail import send_mail
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from EmailVery import EmailVerity
 import hashlib
 import json
 import datetime
@@ -159,22 +160,9 @@ def varifyEmail(email, user, username):
         user: the user of the email
     """
     # get active key with salt and email
-    salt = hashlib.sha1(str(random.random())).hexdigest()[:10]
-    active_key = hashlib.sha1(email+salt).hexdigest()
-    key_expires = datetime.datetime.today() + datetime.timedelta(2)
-
-    # create new user safety
-    newSafety = UserSafety(user_id=username, activation_key=active_key, key_expires=key_expires)
-    newSafety.save()
-
-    #send email with active key
-    email_subject = 'BioDesigner Account confirmation'
-    email_body = "Hello %s,\nThanks for your registeration.\nTo active you account \
-    , please click this link within 48 hours\n\
-    http://127.0.0.1:8000/accounts/confirm/%s" % (username, active_key)
-    send_mail(email_subject, email_body, 'biodesigner@bio.com',
-     [email],fail_silently=False)
-
+    emailThread = EmailVerity(email, username)
+    emailThread.start()
+    return
 
 def isUserExists(username):
     try:

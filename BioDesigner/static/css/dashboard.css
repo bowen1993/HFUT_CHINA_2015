@@ -177,6 +177,10 @@ html,body{
 	width:40px;
 }
 
+div.operation_part_style img{
+	display: block;
+}
+
 .operation_part_drag{
 }
 

@@ -23,19 +23,19 @@ def extractAndSave(partObj, xmlStr):
     if featuresInfo:
         for f in featuresInfo:
             fId = int(f.find('id').text)
-            print fId
+            #print fId
             featureObj = features.objects.get_or_create(feature_id=fId)
             if featureObj[1]:
                 title = f.find('title')
-                print title.text
+                #print title.text
                 ftype = f.find('type')
-                print ftype.text
+                #print ftype.text
                 direction = f.find('direction')
-                print direction.text
+                #print direction.text
                 startpos = f.find('startpos')
-                print startpos.text
+                #print startpos.text
                 endpos = f.find('endpos')
-                print endpos.text
+                #print endpos.text
                 featureObj[0].title = title.text
                 featureObj[0].feature_type = ftype.text
                 featureObj[0].direction = direction.text
@@ -67,19 +67,28 @@ def extractAndSave(partObj, xmlStr):
 
 def mainFunc():
     #get all parts
-    partlist = parts.objects.all()
-    for partObj in partlist:
-        print 'processing part %s' % partObj.part_name
-        tmp = part_features.objects.filter(part=partObj)
-        if len(tmp) != 0:
-            print 'passing'
-            continue
-        print 'getting xml data'
-        req = urllib2.Request(baseXmlUrl+partObj.part_name)
-        response = urllib2.urlopen(req)
-        xmlStr = response.read()
-        print 'extracting data'
-        extractAndSave(partObj,xmlStr)
+    step = 50
+    head = 7370
+    tail = head + step
+    total = parts.objects.count() - head
+    while total > 0:
+        partlist = parts.objects.all()[head:tail]
+        print 'first %d' % tail
+        for partObj in partlist:
+            print 'processing part %s' % partObj.part_name
+            tmp = part_features.objects.filter(part=partObj)
+            if len(tmp) != 0:
+                print 'passing'
+                continue
+            print 'getting xml data'
+            req = urllib2.Request(baseXmlUrl+partObj.part_name)
+            response = urllib2.urlopen(req)
+            xmlStr = response.read()
+            print 'extracting data'
+            extractAndSave(partObj,xmlStr)
+        head += step
+        tail += step
+        total -= step
 
 if __name__ == '__main__':
     django.setup()

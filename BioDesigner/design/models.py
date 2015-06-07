@@ -57,7 +57,7 @@ class features(models.Model):
     direction = models.CharField(max_length=256, null=True)
     startpos = models.IntegerField(null=True)
     endpos = models.IntegerField(null=True)
-
+    
     class Meta:
         db_table = 'bio_features'
 
