@@ -13,7 +13,10 @@ from design.models import parts, features, part_twins, part_features
 baseXmlUrl = 'http://parts.igem.org/cgi/xml/part.cgi?part='
 
 def extractAndSave(partObj, xmlStr):
-    doc = ET.fromstring(xmlStr)
+    try:
+        doc = ET.fromstring(xmlStr)
+    except:
+        print 'part %s error, passed' % partObj.part_name
     try:
         part_url = doc.find('part_list/part/part_url').text
     except:
@@ -68,7 +71,7 @@ def extractAndSave(partObj, xmlStr):
 def mainFunc():
     #get all parts
     step = 50
-    head = 7370
+    head = 29800
     tail = head + step
     total = parts.objects.count() - head
     while total > 0:
